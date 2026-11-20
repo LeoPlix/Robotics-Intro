@@ -1,0 +1,44 @@
+rosbag2_bagfile_information:
+  version: 9
+  storage_identifier: mcap
+  duration:
+    nanoseconds: 127909057768
+  starting_time:
+    nanoseconds_since_epoch: 1795002432339558399
+  message_count: 33858
+  topics_with_message_count:
+    - topic_metadata:
+        name: /group_7/stm_state
+        type: stm_interfaces/msg/STMState
+        serialization_format: cdr
+        offered_qos_profiles:
+          - history: unknown
+            depth: 0
+            reliability: reliable
+            durability: volatile
+            deadline:
+              sec: 9223372036
+              nsec: 854775807
+            lifespan:
+              sec: 9223372036
+              nsec: 854775807
+            liveliness: automatic
+            liveliness_lease_duration:
+              sec: 9223372036
+              nsec: 854775807
+            avoid_ros_namespace_conventions: false
+        type_description_hash: RIHS01_934517fe65b621342f28d9730ffb338df2484c40bd73e36694f6ce2333e28bd4
+      message_count: 33858
+  compression_format: ""
+  compression_mode: ""
+  relative_file_paths:
+    - d1_3_run01_0.mcap
+  files:
+    - path: d1_3_run01_0.mcap
+      starting_time:
+        nanoseconds_since_epoch: 1795002432339558399
+      duration:
+        nanoseconds: 127909057768
+      message_count: 33858
+  custom_data: ~
+  ros_distro: jazzy

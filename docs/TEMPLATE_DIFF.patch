@@ -1,0 +1,1184 @@
+--- templates/1_simple_publisher.py
++++ src/first_package/first_package/simple_publisher.py
+@@ -1,3 +1,5 @@
++# Course template: templates/1_simple_publisher.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ # Import the ROS2 Python client library
+ import rclpy
+ from rclpy.node import Node
+@@ -8,11 +10,11 @@
+ class MinimalPublisher(Node):
+     def __init__(self):
+         # Initialize the node with the custom name 'node_NICKNAME'
+-        super().__init__('node_NICKNAME')  # <-- Replace 'NICKNAME' with your actual group number
++        super().__init__('node_7')  # <-- Replace 'NICKNAME' with your actual group number
+         
+         # Step 2: Create a publisher for your topic
+         # Replace 'topic_ID' with a unique topic name (e.g., 'topic_1' for Group 1)
+-        self.publisher_ = self.create_publisher(String, 'topic_NICKNAME', 10)  # <-- Replace 'NICKNAME'
++        self.publisher_ = self.create_publisher(String, 'topic_7', 10)  # <-- Replace 'NICKNAME'
+         
+         # Step 3: Set a timer to publish messages at a chosen frequency
+         # Modify 'timer_period' to control how often messages are published (e.g., 2.0 for every 2 seconds)
+@@ -29,7 +31,7 @@
+         
+         # Customize the message data with a unique message
+         # Modify the message content to include your group number and a custom message
+-        msg.data = f"Group NICKNAME says hello! This is message #{self.i}"  # <-- Replace 'NICKNAME'
++        msg.data = f"Group 7 says hello! This is message #{self.i}"  # <-- Replace 'NICKNAME'
+         
+         # Publish the message
+         self.publisher_.publish(msg)
+--- templates/2_simple_subscriber.py
++++ src/first_package/first_package/simple_subscriber.py
+@@ -1,3 +1,5 @@
++# Course template: templates/2_simple_subscriber.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ # Import the ROS2 Python client library
+ import rclpy
+ from rclpy.node import Node
+@@ -11,14 +13,14 @@
+ class MinimalSubscriber(Node):
+     def __init__(self):
+         # Initialize the node with the custom name 'node_NICKNAME'
+-        super().__init__('node_NICKNAME')  # <-- Replace 'NICKNAME' with your actual group number
++        super().__init__('node_7')  # <-- Replace 'NICKNAME' with your actual group number
+         
+         # Step 2: Create a subscription to your group's topic
+         # Replace 'topic_ID' with the topic name you want to subscribe to (e.g., 'topic_1' for Group 1)
+         # The callback function 'listener_callback' will be called whenever a message is received
+         self.subscription = self.create_subscription(
+             String,             # Message type used by the publisher
+-            'topic_NICKNAME',  # <-- Replace 'NICKNAME' with the specific topic name for your group
++            'topic_7',  # <-- Replace 'NICKNAME' with the specific topic name for your group
+             self.listener_callback,  
+             10)  # Queue size for incoming messages
+         self.subscription  # Prevent unused variable warning
+--- templates/3_simple_service.py
++++ src/first_package/first_package/simple_service.py
+@@ -1,10 +1,12 @@
++# Course template: templates/3_simple_service.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ # The Objective:
+ # To create a ROS 2 node that provides a service to add two integers and return the sum.
+ 
+ # 1. Import necessary libraries and custom message/service types
+ import rclpy
+ from rclpy.node import Node
+-from ....srv import ....
++from first_interfaces.srv import ExampleService
+ 
+ # 2. Define the AddTwoIntsServer class
+ class AddTwoIntsServer(Node):
+@@ -15,14 +17,14 @@
+         # The service name is 'add_two_ints'
+         # The service type is your custom srv interface
+         # The callback function is 'handle_request'
+-        self.service = self.create_service(... , 'add_two_ints', self.handle_request)
++        self.service = self.create_service(ExampleService, 'add_two_ints', self.handle_request)
+ 
+     # 4. TODO: Define the handle_request method to process the request and return the response
+     def handle_request(self, request, response):
+         # Add the parameter value to sum
+         # Add a and b (first part of the service interface)
+-        a = request. ... 
+-        b = request. ...
++        a = request.a 
++        b = request.b
+         response.sum = a + b
+         self.get_logger().info(f'Received: {a} + {b} = {response.sum}')
+         
+--- templates/4_simple_service_parameter.py
++++ src/first_package/first_package/simple_service_parameter.py
+@@ -1,3 +1,5 @@
++# Course template: templates/4_simple_service_parameter.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ # Objective:
+ # To create a ROS 2 node that uses parameters in a service to add two integers 
+ # and an extra term defined by the parameter value and return the sum.
+@@ -5,7 +7,8 @@
+ # 1. Import necessary libraries and custom message/service types
+ import rclpy
+ from rclpy.node import Node
+-from ....srv import ...
++from rcl_interfaces.msg import SetParametersResult
++from first_interfaces.srv import ExampleService
+ 
+ # 2. Define the AddTwoIntsServer class
+ class AddTwoIntsServer(Node):
+@@ -23,7 +26,7 @@
+         # The service name is 'add_two_ints'
+         # The service type is your custom srv interface
+         # The callback function is 'handle_request'
+-        self.service = self.create_service(... , 'add_two_ints', self.handle_request)
++        self.service = self.create_service(ExampleService, 'add_two_ints', self.handle_request)
+ 
+     # 5. TODO: Define the handle_request method to process the request and return the response
+     def handle_request(self, request, response):
+@@ -40,7 +43,7 @@
+         for param in params:
+             if param.name == 'extra_term':
+                 # TODO: Update self.extra_term with the new parameter value
+-                self.extra_term = ...
++                self.extra_term = param.value
+                 self.get_logger().info(f"Updated extra_term to: {self.extra_term}")
+ 
+         # TODO: Return SetParametersResult confirming success
+--- templates/6_stm_serial_node_pub.py
++++ src/stm_station/stm_station/serial_publisher_node.py
+@@ -1,3 +1,5 @@
++# Course template: templates/6_stm_serial_node_pub.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ # Objective:
+ # The goal is to create a ROS 2 node that reads data from a serial device and publishes it using standard messages like Float32MultiArray.
+ # The serial reading part is provided, and students will focus on setting up the publisher and formatting the data accordingly.
+@@ -17,7 +19,7 @@
+         super().__init__('stm_serial_node')
+ 
+         # 3. TODO: Get Serial Configuration Values 
+-        self.port = '/dev/tty....'  # Serial port name
++        self.port = '/dev/ttyACM0'  # Serial port name
+         self.baudrate = 115200      # Baud rate for serial communication
+         self.loop_frequency = 1000  # Frequency to read data from the serial port
+ 
+@@ -28,7 +30,7 @@
+         # 5. TODO: Create a publisher to publish the received data from the serial port
+         # using Float32MultiArray messages from the std_msgs package in the topic 'stm_state'
+         self.stm_state_topic = 'stm_state'
+-        self.stm_state_publisher = ...
++        self.stm_state_publisher = self.create_publisher(Float32MultiArray, self.stm_state_topic, 10)
+ 
+         # 6. Create a timer to read data periodically and publish it
+         self.timer = self.create_timer(1 / self.loop_frequency, self.timer_read_pub_callback)
+@@ -74,19 +76,25 @@
+                     # 6. imu_gyro_x
+                     # 7. imu_gyro_y
+                     # 8. imu_gyro_z
+-                    motor_position = ...
++                    motor_position = float_values[0]
++                    motor_velocity = float_values[1]
++                    imu_acceleration_x = float_values[2]
++                    imu_acceleration_y = float_values[3]
++                    imu_acceleration_z = float_values[4]
++                    imu_gyro_x = float_values[5]
++                    imu_gyro_y = float_values[6]
++                    imu_gyro_z = float_values[7]
+ 
+                     # Create a Float32MultiArray message
+                     # TODO: Create and populate the Float32MultiArray message
+                     float32_multi_array_msg = Float32MultiArray()
+-                    float32_multi_array_msg.data = [motor_position, motor_velocity ...
++                    float32_multi_array_msg.data = [motor_position, motor_velocity, imu_acceleration_x, imu_acceleration_y, imu_acceleration_z, imu_gyro_x, imu_gyro_y, imu_gyro_z]
+ 
+                     # TODO: add a newline character to indicate the end of the command
+-                    control_data += ...
+ 
+                     # Publish the message
+                     # TODO: Publish the float32_multi_array_msg
+-                    ...
++                    self.stm_state_publisher.publish(float32_multi_array_msg)
+ 
+                 self.get_logger().info(f'Published data: {float_values}')
+             except ValueError as e:
+--- templates/7_stm_serial_node_pub_sub.py
++++ src/stm_station/stm_station/serial_pubsub_node.py
+@@ -1,3 +1,5 @@
++# Course template: templates/7_stm_serial_node_pub_sub.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ # Objective:
+ # The goal is to create a ROS 2 node that reads data from a serial device and publishes it using standard messages like Float32MultiArray.
+ # Additionally, the node subscribes to Float32MultiArray messages to receive control commands and sends these commands to the serial device.
+@@ -18,7 +20,7 @@
+         super().__init__('stm_serial_node')
+ 
+         # 3. TODO: Get Serial Configuration Values 
+-        self.port = '/dev/tty....'  # Serial port name
++        self.port = '/dev/ttyACM0'  # Serial port name
+         self.baudrate = 115200      # Baud rate for serial communication
+         self.loop_frequency = 1000  # Frequency to read data from the serial port
+ 
+@@ -29,7 +31,7 @@
+         # 5. TODO: Create a publisher to publish the received data from the serial port
+         # using Float32MultiArray messages from the std_msgs package in the topic 'stm_state'
+         self.stm_state_topic = 'stm_state'
+-        self.stm_state_publisher = ...
++        self.stm_state_publisher = self.create_publisher(Float32MultiArray, self.stm_state_topic, 10)
+ 
+         # 6. Create a timer to read data periodically and publish it
+         self.timer = self.create_timer(1 / self.loop_frequency, self.timer_read_pub_callback)
+@@ -37,7 +39,7 @@
+         # 7. TODO: Create a subscriber to receive control commands as Float32MultiArray messages
+         # on the topic 'stm_control' with a queue size of 10 and a callback function 'stm_control_callback'
+         self.stm_control_topic = 'stm_control'
+-        self.stm_control_subscriber = ...
++        self.stm_control_subscriber = self.create_subscription(Float32MultiArray, self.stm_control_topic, self.stm_control_callback, 10)
+ 
+ 
+     # 7. Define the callback function for the timer
+@@ -81,19 +83,25 @@
+                     # 6. imu_gyro_x
+                     # 7. imu_gyro_y
+                     # 8. imu_gyro_z
+-                    motor_position = ...
++                    motor_position = float_values[0]
++                    motor_velocity = float_values[1]
++                    imu_acceleration_x = float_values[2]
++                    imu_acceleration_y = float_values[3]
++                    imu_acceleration_z = float_values[4]
++                    imu_gyro_x = float_values[5]
++                    imu_gyro_y = float_values[6]
++                    imu_gyro_z = float_values[7]
+ 
+                     # Create a Float32MultiArray message
+                     # TODO: Create and populate the Float32MultiArray message
+                     float32_multi_array_msg = Float32MultiArray()
+-                    float32_multi_array_msg.data = [motor_position, motor_velocity ...
++                    float32_multi_array_msg.data = [motor_position, motor_velocity, imu_acceleration_x, imu_acceleration_y, imu_acceleration_z, imu_gyro_x, imu_gyro_y, imu_gyro_z]
+ 
+                     # TODO: add a newline character to indicate the end of the command
+-                    control_data += ...
+ 
+                     # Publish the message
+                     # TODO: Publish the float32_multi_array_msg
+-                    ...
++                    self.stm_state_publisher.publish(float32_multi_array_msg)
+ 
+                 self.get_logger().info(f'Published data: {float_values}')
+             except ValueError as e:
+@@ -110,10 +118,10 @@
+             # TODO: Format the control data as a comma-separated string and send it to the serial device
+             # format: {control_type, goal_position, Kp, PWM}
+             # control_type: 0 = Stop, 1 = Position Control (Close Loop), 2 = PWM Control (Open Loop)
+-            control_data = f"{{{msg....}, {msg....}, {msg....}, {msg....}}}"
++            control_data = f"{{{int(msg.data[0])}, {msg.data[1]}, {msg.data[2]}, {msg.data[3]}}}\n"
+ 
+             # TODO: Encode the control data as UTF-8 and write it to the serial port 
+-            self.serial_port.write(.....encode('utf-8'))
++            self.serial_port.write(control_data.encode('utf-8'))
+             self.get_logger().info(f'Sent control command: {control_data}')
+         except Exception as e:
+             self.get_logger().error(f'Error sending control command: {e}')
+--- templates/7_stm_serial_node_pub_sub.py
++++ src/stm_station/stm_station/serial_node.py
+@@ -1,3 +1,5 @@
++# Course template: templates/7_stm_serial_node_pub_sub.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ # Objective:
+ # The goal is to create a ROS 2 node that reads data from a serial device and publishes it using standard messages like Float32MultiArray.
+ # Additionally, the node subscribes to Float32MultiArray messages to receive control commands and sends these commands to the serial device.
+@@ -6,7 +8,7 @@
+ # 1. Import necessary libraries
+ import rclpy
+ from rclpy.node import Node
+-from std_msgs.msg import Float32MultiArray
++from stm_interfaces.msg import STMState, STMControl
+ import serial
+ 
+ # 2. Define the SerialPubSubNode class
+@@ -18,8 +20,8 @@
+         super().__init__('stm_serial_node')
+ 
+         # 3. TODO: Get Serial Configuration Values 
+-        self.port = '/dev/tty....'  # Serial port name
+-        self.baudrate = 115200      # Baud rate for serial communication
++        self.port = self.declare_parameter('serial_port', '/dev/ttyACM0').value  # Serial port name
++        self.baudrate = self.declare_parameter('baud_rate', 115200).value  # Baud rate for serial communication
+         self.loop_frequency = 1000  # Frequency to read data from the serial port
+ 
+         # 4. Set up the serial port for communication
+@@ -29,7 +31,7 @@
+         # 5. TODO: Create a publisher to publish the received data from the serial port
+         # using Float32MultiArray messages from the std_msgs package in the topic 'stm_state'
+         self.stm_state_topic = 'stm_state'
+-        self.stm_state_publisher = ...
++        self.stm_state_publisher = self.create_publisher(STMState, self.stm_state_topic, 10)
+ 
+         # 6. Create a timer to read data periodically and publish it
+         self.timer = self.create_timer(1 / self.loop_frequency, self.timer_read_pub_callback)
+@@ -37,7 +39,7 @@
+         # 7. TODO: Create a subscriber to receive control commands as Float32MultiArray messages
+         # on the topic 'stm_control' with a queue size of 10 and a callback function 'stm_control_callback'
+         self.stm_control_topic = 'stm_control'
+-        self.stm_control_subscriber = ...
++        self.stm_control_subscriber = self.create_subscription(STMControl, self.stm_control_topic, self.stm_control_callback, 10)
+ 
+ 
+     # 7. Define the callback function for the timer
+@@ -81,19 +83,32 @@
+                     # 6. imu_gyro_x
+                     # 7. imu_gyro_y
+                     # 8. imu_gyro_z
+-                    motor_position = ...
++                    motor_position = float_values[0]
++                    motor_velocity = float_values[1]
++                    imu_acceleration_x = float_values[2]
++                    imu_acceleration_y = float_values[3]
++                    imu_acceleration_z = float_values[4]
++                    imu_gyro_x = float_values[5]
++                    imu_gyro_y = float_values[6]
++                    imu_gyro_z = float_values[7]
+ 
+                     # Create a Float32MultiArray message
+                     # TODO: Create and populate the Float32MultiArray message
+-                    float32_multi_array_msg = Float32MultiArray()
+-                    float32_multi_array_msg.data = [motor_position, motor_velocity ...
+-
++                    float32_multi_array_msg = STMState()
++                    float32_multi_array_msg.header.stamp = self.get_clock().now().to_msg()
++                    float32_multi_array_msg.motor_encoder = motor_position
++                    float32_multi_array_msg.motor_velocity = motor_velocity
++                    float32_multi_array_msg.accel_x = imu_acceleration_x
++                    float32_multi_array_msg.accel_y = imu_acceleration_y
++                    float32_multi_array_msg.accel_z = imu_acceleration_z
++                    float32_multi_array_msg.gyro_x = imu_gyro_x
++                    float32_multi_array_msg.gyro_y = imu_gyro_y
++                    float32_multi_array_msg.gyro_z = imu_gyro_z
+                     # TODO: add a newline character to indicate the end of the command
+-                    control_data += ...
+ 
+                     # Publish the message
+                     # TODO: Publish the float32_multi_array_msg
+-                    ...
++                    self.stm_state_publisher.publish(float32_multi_array_msg)
+ 
+                 self.get_logger().info(f'Published data: {float_values}')
+             except ValueError as e:
+@@ -110,10 +125,10 @@
+             # TODO: Format the control data as a comma-separated string and send it to the serial device
+             # format: {control_type, goal_position, Kp, PWM}
+             # control_type: 0 = Stop, 1 = Position Control (Close Loop), 2 = PWM Control (Open Loop)
+-            control_data = f"{{{msg....}, {msg....}, {msg....}, {msg....}}}"
++            control_data = f"{{{int(msg.control_type)}, {msg.setpoint}, {msg.kp}, {msg.pwm}}}\n"
+ 
+             # TODO: Encode the control data as UTF-8 and write it to the serial port 
+-            self.serial_port.write(.....encode('utf-8'))
++            self.serial_port.write(control_data.encode('utf-8'))
+             self.get_logger().info(f'Sent control command: {control_data}')
+         except Exception as e:
+             self.get_logger().error(f'Error sending control command: {e}')
+--- templates/8_stm_control_node_master_slave.py
++++ src/stm_station/stm_station/control_master_slave.py
+@@ -1,3 +1,5 @@
++# Course template: templates/8_stm_control_node_master_slave.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ # Objective:
+ # The goal of this exercise is to create a ROS2 node named 'STMControlNode' that controls the slave STM motor using Stop and Master-Slave Position Control. 
+ # The node subscribes to the master STM state and publishes control commands to the slave STM node. 
+@@ -14,7 +16,9 @@
+ 
+ # 1. Import necessary libraries and custom message/service types
+ # TODO: Import the custom message types STMState and STMControl
++from stm_interfaces.msg import STMState, STMControl
+ # TODO: Import the custom service type STMSetControlType
++from stm_interfaces.srv import STMSetControlType
+ 
+ # 2. Define the STMControlNode class
+ class STMControlNode(Node):
+@@ -31,25 +35,25 @@
+         # 3. TODO:  Declare parameters 'master_group_id' and 'slave_group_id as set default values
+         # 'master_group_id': ID for the master STM data topic, set the default value to 1
+         # 'slave_group_id': ID for the slave control command topic, set the default value to 2
+-        self.declare_parameter('master_group_id', ...) 
+-        self.declare_parameter('slave_group_id', ...) 
++        self.declare_parameter('master_group_id', 1) 
++        self.declare_parameter('slave_group_id', 2) 
+         self.loop_frequency = 50  # Maintain value
+ 
+         # 4. TODO: Retrieve parameter values from the node's configuration and assign them to instance 
+         # variables
+-        self.master_group_id = ...  
+-        self.slave_group_id = ... 
++        self.master_group_id = self.get_parameter('master_group_id').value  
++        self.slave_group_id = self.get_parameter('slave_group_id').value 
+ 
+         # 5. TODO: Define topic names for master and slave based on group IDs obtained from parameters
+-        self.master_state_topic = ...  # Master stm_state topic (/group_id/stm_state)
+-        self.slave_control_topic = ... # Slave stm_control topic (/group_id/stm_control)
++        self.master_state_topic = f"/group_{self.master_group_id}/stm_state"  # Master stm_state topic (/group_id/stm_state)
++        self.slave_control_topic = f"/group_{self.slave_group_id}/stm_control" # Slave stm_control topic (/group_id/stm_control)
+ 
+         # 6. TODO: Create subscribers for STM state (master and slave)
+-        self.master_stm_state_subscriber = ...  # Subscriber for the master node state
++        self.master_stm_state_subscriber = self.create_subscription(STMState, self.master_state_topic, self.master_stm_state_callback, 10)  # Subscriber for the master node state
+         self.get_logger().info(f"Subscribed to {self.master_state_topic}")
+ 
+         # 7. TODO: Create publishers for STM control (slave)
+-        self.slave_stm_control_publisher = ...  # Publisher for the slave node control
++        self.slave_stm_control_publisher = self.create_publisher(STMControl, self.slave_control_topic, 10)  # Publisher for the slave node control
+         self.get_logger().info(f"Publishing to {self.slave_control_topic}")
+ 
+         # 8. Define the service name ('set_control_type')
+@@ -59,10 +63,10 @@
+         # Request:  Control types ->  0 = Stop  |  1 = Position Control
+         # Request:  Control gains -> kp = Proportional gain, kd = Derivative gain
+         # Response: Success status
+-        self.control_type_service = ...
++        self.control_type_service = self.create_service(STMSetControlType, self.control_type_service_name, self.service_control_type_callback)
+ 
+         # 10. TODO: Create a timer for the publisher and to control the STM. 
+-        self.timer_control_loop = ...
++        self.timer_control_loop = self.create_timer(1 / self.loop_frequency, self.timer_callback)
+ 
+         # 11. Initialize variables for storing master position
+         self.master_position = 0.0
+@@ -85,7 +89,7 @@
+         :param msg: STMState message containing motor position data.
+         """
+         # TODO: Update master_position with value from msg
+-        self.master_position = ...
++        self.master_position = msg.motor_encoder
+ 
+     # 15. TODO: Implement the service callback
+     def service_control_type_callback(self, request, response):
+@@ -102,7 +106,7 @@
+         # 0 = Stop, 1 = Position Control
+         # If an invalid control type is requested, default to Stop (0)
+         if (request.control_type == 0 or request.control_type == 1):
+-            self.control_type = request...
++            self.control_type = request.control_type
+         else:
+             self.control_type = 0
+             self.get_logger().warning(f"Invalid control type: {request.control_type}. Defaulting to Stop (0)")
+@@ -110,7 +114,7 @@
+         # TODO: Update control gain based on the received requested message, 
+         # ensure the value is non-negative
+         if request.kp >= 0.0:
+-            self.kp = request...
++            self.kp = request.kp
+         else:
+             self.kp = 0.0
+             self.get_logger().warning(f"Invalid control gain: kp={request.kp}. Defaulting to kp={self.kp}")
+@@ -135,9 +139,9 @@
+         if (self.control_type == 1 or self.control_type == 0):
+             # TODO: Fill in the control message based on the control type and control constant received from the service request
+             # and the slave setpoint position based on the master position received from the subscriber
+-            control_msg.control_type = ... 
+-            control_msg.kp = ...
+-            control_msg.setpoint = ...
++            control_msg.control_type = self.control_type 
++            control_msg.kp = self.kp
++            control_msg.setpoint = self.master_position
+         else:
+             # Handle unknown control types
+             self.get_logger().warning(f"Unknown control type: {self.control_type}")
+@@ -165,24 +169,24 @@
+         for param in params:
+             if param.name == 'master_group_id':
+                 # TODO: Update master_group_id and master_state_topic
+-                self.master_group_id = self.get_parameter(...
+-                self.master_state_topic = f"/group_..."
++                self.master_group_id = param.value
++                self.master_state_topic = f"/group_{self.master_group_id}/stm_state"
+                 
+                 # TODO: If the subscriber already exists, destroy it and create a new one with the updated topic
+                 if hasattr(self, 'master_stm_state_subscriber'):
+                     self.destroy_subscription(self.master_stm_state_subscriber)
+-                    self.master_stm_state_subscriber = ...
++                    self.master_stm_state_subscriber = self.create_subscription(STMState, self.master_state_topic, self.master_stm_state_callback, 10)
+                     self.get_logger().info(f"Updated master subscriber to: {self.master_state_topic}")
+ 
+             elif param.name == 'slave_group_id':
+                 # TODO: Update slave_group_id and slave_control_topic
+-                self.slave_group_id = self.get_parameter(...
+-                self.slave_control_topic = f"/group_..."
++                self.slave_group_id = param.value
++                self.slave_control_topic = f"/group_{self.slave_group_id}/stm_control"
+                 
+                 # TODO: If the publisher already exists, destroy it and create a new one with the updated topic
+                 if hasattr(self, 'slave_stm_control_publisher'):
+                     self.destroy_publisher(self.slave_stm_control_publisher)
+-                    self.slave_stm_control_publisher = ...
++                    self.slave_stm_control_publisher = self.create_publisher(STMControl, self.slave_control_topic, 10)
+                     self.get_logger().info(f"Updated slave publisher to: {self.slave_control_topic}")
+ 
+         # Return SetParametersResult with successful=True
+--- templates/9_stm_control_node_master_slave_poscontrol.py
++++ src/stm_station/stm_station/control_position.py
+@@ -1,3 +1,5 @@
++# Course template: templates/9_stm_control_node_master_slave_poscontrol.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ # Objective:
+ # The goal of this exercise is to create a ROS2 node named 'STMControlNode' that controls the slave STM motor using Stop, Master-Slave Position Control and Close loop PWM Control. 
+ # This last control approach, closes the control loop inside of the node controling the slave STM motor adjusting the PWM based on the position error between the master and slave 
+@@ -16,7 +18,9 @@
+ 
+ # 1. Import necessary libraries and custom message/service types
+ # TODO: Import the custom message types STMState and STMControl
++from stm_interfaces.msg import STMState, STMControl
+ # TODO: Import the custom service type STMSetControlType
++from stm_interfaces.srv import STMSetControlType
+ 
+ # 2. Define the STMControlNode class
+ class STMControlNode(Node):
+@@ -33,29 +37,29 @@
+         # 3. TODO:  Declare parameters 'master_group_id' and 'slave_group_id as set default values
+         # 'master_group_id': ID for the master STM data topic, set the default value to 1
+         # 'slave_group_id': ID for the slave control command topic, set the default value to 2
+-        self.declare_parameter('master_group_id', ...) 
+-        self.declare_parameter('slave_group_id', ...) 
++        self.declare_parameter('master_group_id', 1) 
++        self.declare_parameter('slave_group_id', 2) 
+         self.loop_frequency = 50  # Maintain value
+ 
+         # 4. TODO: Retrieve parameter values from the node's configuration and assign them to instance 
+         # variables
+-        self.master_group_id = ...  
+-        self.slave_group_id = ... 
++        self.master_group_id = self.get_parameter('master_group_id').value  
++        self.slave_group_id = self.get_parameter('slave_group_id').value 
+ 
+         # 5. TODO: Define topic names for master and slave based on group IDs obtained from parameters
+-        self.master_state_topic = ...  # Master stm_state topic (/group_id/stm_state)
+-        self.slave_state_topic = ...   # Slave stm_state topic (/group_id/stm_state)
+-        self.slave_control_topic = ... # Slave stm_control topic (/group_id/stm_control)
++        self.master_state_topic = f"/group_{self.master_group_id}/stm_state"  # Master stm_state topic (/group_id/stm_state)
++        self.slave_state_topic = f"/group_{self.slave_group_id}/stm_state"   # Slave stm_state topic (/group_id/stm_state)
++        self.slave_control_topic = f"/group_{self.slave_group_id}/stm_control" # Slave stm_control topic (/group_id/stm_control)
+ 
+         # 6. TODO: Create subscribers for STM state (master and slave)
+-        self.master_stm_state_subscriber = ...  # Subscriber for the master node state
+-        self.slave_stm_state_subscriber = ...   # Subscriber for the slave node state
++        self.master_stm_state_subscriber = self.create_subscription(STMState, self.master_state_topic, self.master_stm_state_callback, 10)  # Subscriber for the master node state
++        self.slave_stm_state_subscriber = self.create_subscription(STMState, self.slave_state_topic, self.slave_stm_state_callback, 10)   # Subscriber for the slave node state
+         self.get_logger().info(f"Subscribed to {self.master_state_topic}")
+         self.get_logger().info(f"Subscribed to {self.slave_state_topic}")
+ 
+         # 7. TODO: Create publishers for STM control (slave)
+-        self.slave_stm_control_publisher = ...  # Publisher for the slave node control
+-        self.get_logger().info(f"Publishing to {self.stm_control_topic}")
++        self.slave_stm_control_publisher = self.create_publisher(STMControl, self.slave_control_topic, 10)  # Publisher for the slave node control
++        self.get_logger().info(f"Publishing to {self.slave_control_topic}")
+ 
+         # 8. Define the service name ('set_control_type')
+         self.control_type_service_name = 'set_control_type'
+@@ -64,11 +68,11 @@
+         # Request:  Control types ->  0 = Stop  |  1 = Position Control
+         # Request:  Control gains -> kp = Proportional gain, kd = Derivative gain
+         # Response: Success status
+-        self.control_type_service = ...
++        self.control_type_service = self.create_service(STMSetControlType, self.control_type_service_name, self.service_control_type_callback)
+ 
+         # 10. TODO: Create a timer for the publisher and to control the STM. 
+         # !!! set the loop at 50Hz !!! (set the period to: 1 / self.loop_frequency) !!
+-        self.timer_control_loop = ...
++        self.timer_control_loop = self.create_timer(1 / self.loop_frequency, self.timer_callback)
+ 
+         # 11. Initialize variables for storing master position
+         self.master_position = 0.0
+@@ -91,7 +95,7 @@
+         :param msg: STMState message containing motor position data.
+         """
+         # TODO: Update master_position with value from msg
+-        self.master_position = ...
++        self.master_position = msg.motor_encoder
+ 
+     # 15. TODO: Implement callback functions
+     def slave_stm_state_callback(self, msg):
+@@ -102,7 +106,7 @@
+         :param msg: STMState message containing motor position data.
+         """
+         # TODO: Update master_position with value from msg
+-        self.slave_position = ...
++        self.slave_position = msg.motor_encoder
+ 
+     # 16. TODO: Implement the service callback
+     def service_control_type_callback(self, request, response):
+@@ -123,7 +127,7 @@
+         # TODO: Update control gain based on the received requested message, 
+         # ensure the value is non-negative
+         if request.kp >= 0.0:
+-            self.kp = request...
++            self.kp = request.kp
+         else:
+             self.kp = 0.0
+             self.get_logger().warning(f"Invalid control gain: kp={request.kp}. Defaulting to kp={self.kp}")
+@@ -148,24 +152,28 @@
+         for param in params:
+             if param.name == 'master_group_id':
+                 # TODO: Update master_group_id and master_state_topic
+-                self.master_group_id = self.get_parameter(...
+-                self.master_state_topic = f"/group_..."
++                self.master_group_id = param.value
++                self.master_state_topic = f"/group_{self.master_group_id}/stm_state"
+                 
+                 # TODO: If the subscriber already exists, destroy it and create a new one with the updated topic
+                 if hasattr(self, 'master_stm_state_subscriber'):
+                     self.destroy_subscription(self.master_stm_state_subscriber)
+-                    self.master_stm_state_subscriber = ...
++                    self.master_stm_state_subscriber = self.create_subscription(STMState, self.master_state_topic, self.master_stm_state_callback, 10)
+                     self.get_logger().info(f"Updated master subscriber to: {self.master_state_topic}")
+ 
+             elif param.name == 'slave_group_id':
+                 # TODO: Update slave_group_id and slave_control_topic
+-                self.slave_group_id = self.get_parameter(...
+-                self.slave_control_topic = f"/group_..."
++                self.slave_group_id = param.value
++                self.slave_state_topic = f"/group_{self.slave_group_id}/stm_state"
++                if hasattr(self, "slave_stm_state_subscriber"):
++                    self.destroy_subscription(self.slave_stm_state_subscriber)
++                    self.slave_stm_state_subscriber = self.create_subscription(STMState, self.slave_state_topic, self.slave_stm_state_callback, 10)
++                self.slave_control_topic = f"/group_{self.slave_group_id}/stm_control"
+                 
+                 # TODO: If the publisher already exists, destroy it and create a new one with the updated topic
+                 if hasattr(self, 'slave_stm_control_publisher'):
+                     self.destroy_publisher(self.slave_stm_control_publisher)
+-                    self.slave_stm_control_publisher = ...
++                    self.slave_stm_control_publisher = self.create_publisher(STMControl, self.slave_control_topic, 10)
+                     self.get_logger().info(f"Updated slave publisher to: {self.slave_control_topic}")
+ 
+         # Return SetParametersResult with successful=True
+@@ -183,15 +191,18 @@
+         if self.control_type >=0 and self.control_type <=2:
+             # TODO: Close loop for position control using PWM
+             # TODO: Calculate the error between the master and slave positions
+-            error = ...
++            error = self.master_position - self.slave_position
+             # TODO: Calculate the control command using the proportional gain constant
+-            control_command = ...
++            control_command = self.kp * error
+             # Saturate the control command to the valid range
+             pwm_limit = 250.0  # Maximum PWM value !!
+             control_command = max(-pwm_limit, min(pwm_limit, control_command))
+             
+             # TODO: Update the PWM control command in the STMControl message
+-            control_msg = ...
++            control_msg.control_type = self.control_type
++            control_msg.kp = self.kp
++            control_msg.setpoint = self.master_position
++            control_msg.pwm = control_command if self.control_type == 2 else 0.0
+ 
+         else:
+             # Handle unknown control types
+@@ -202,7 +213,7 @@
+             control_msg.setpoint = 0.0
+         
+         # TODO: Publish the constructed control command
+-        ...
++        self.slave_stm_control_publisher.publish(control_msg)
+ 
+         # Log the published command for debugging and monitoring
+         self.get_logger().info(f"Published control command: {control_msg}")
+--- templates/10_stm_control_node_master_slave_impedance_control.py
++++ src/stm_station/stm_station/control_node.py
+@@ -1,3 +1,5 @@
++# Course template: templates/10_stm_control_node_master_slave_impedance_control.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ # Objective:
+ # The goal of this exercise is to create a ROS2 node named 'STMControlNode' that controls the slave STM motor using Stop, Master-Slave Position Control and Close loop Impedance Control. 
+ # This last control approach, also closes the control loop inside of the node controling the slave STM motor adjusting the PWM based on the position and velocity errors between the master 
+@@ -16,7 +18,9 @@
+ 
+ # 1. Import necessary libraries and custom message/service types
+ # TODO: Import the custom message types STMState and STMControl
++from stm_interfaces.msg import STMState, STMControl
+ # TODO: Import the custom service type STMSetControlType
++from stm_interfaces.srv import STMSetControlType
+ 
+ # 2. Define the STMControlNode class
+ class STMControlNode(Node):
+@@ -33,29 +37,29 @@
+         # 3. TODO:  Declare parameters 'master_group_id' and 'slave_group_id as set default values
+         # 'master_group_id': ID for the master STM data topic, set the default value to 1
+         # 'slave_group_id': ID for the slave control command topic, set the default value to 2
+-        self.declare_parameter('master_group_id', ...) 
+-        self.declare_parameter('slave_group_id', ...) 
++        self.declare_parameter('master_group_id', 1) 
++        self.declare_parameter('slave_group_id', 2) 
+         self.loop_frequency = 50  # Maintain value
+ 
+         # 4. TODO: Retrieve parameter values from the node's configuration and assign them to instance 
+         # variables
+-        self.master_group_id = ...  
+-        self.slave_group_id = ... 
++        self.master_group_id = self.get_parameter('master_group_id').value  
++        self.slave_group_id = self.get_parameter('slave_group_id').value 
+ 
+         # 5. TODO: Define topic names for master and slave based on group IDs obtained from parameters
+-        self.master_state_topic = ...  # Master stm_state topic (/group_id/stm_state)
+-        self.slave_state_topic = ...   # Slave stm_state topic (/group_id/stm_state)
+-        self.slave_control_topic = ... # Slave stm_control topic (/group_id/stm_control)
++        self.master_state_topic = f"/group_{self.master_group_id}/stm_state"  # Master stm_state topic (/group_id/stm_state)
++        self.slave_state_topic = f"/group_{self.slave_group_id}/stm_state"   # Slave stm_state topic (/group_id/stm_state)
++        self.slave_control_topic = f"/group_{self.slave_group_id}/stm_control" # Slave stm_control topic (/group_id/stm_control)
+ 
+         # 6. TODO: Create subscribers for STM state (master and slave)
+-        self.master_stm_state_subscriber = ...  # Subscriber for the master node state
+-        self.slave_stm_state_subscriber = ...   # Subscriber for the slave node state
++        self.master_stm_state_subscriber = self.create_subscription(STMState, self.master_state_topic, self.master_stm_state_callback, 10)  # Subscriber for the master node state
++        self.slave_stm_state_subscriber = self.create_subscription(STMState, self.slave_state_topic, self.slave_stm_state_callback, 10)   # Subscriber for the slave node state
+         self.get_logger().info(f"Subscribed to {self.master_state_topic}")
+         self.get_logger().info(f"Subscribed to {self.slave_state_topic}")
+ 
+         # 7. TODO: Create publishers for STM control (slave)
+-        self.slave_stm_control_publisher = ...  # Publisher for the slave node control
+-        self.get_logger().info(f"Publishing to {self.stm_control_topic}")
++        self.slave_stm_control_publisher = self.create_publisher(STMControl, self.slave_control_topic, 10)  # Publisher for the slave node control
++        self.get_logger().info(f"Publishing to {self.slave_control_topic}")
+ 
+         # 8. Define the service name ('set_control_type')
+         self.control_type_service_name = 'set_control_type'
+@@ -64,11 +68,11 @@
+         # Request:  Control types ->  0 = Stop  |  1 = Position Control
+         # Request:  Control gains -> kp = Proportional gain, kd = Derivative gain
+         # Response: Success status
+-        self.control_type_service = ...
++        self.control_type_service = self.create_service(STMSetControlType, self.control_type_service_name, self.service_control_type_callback)
+ 
+         # 10. TODO: Create a timer for the publisher and to control the STM. 
+         # !!! set the loop at 50Hz !!! (set the period to: 1 / self.loop_frequency) !!
+-        self.timer_control_loop = ...
++        self.timer_control_loop = self.create_timer(1 / self.loop_frequency, self.timer_callback)
+ 
+         # 11. Initialize variables for storing master position
+         self.master_position = 0.0
+@@ -81,6 +85,8 @@
+         # 13. Initialize control gains kp and kv to default value
+         self.kp = 0.0
+         self.kv = 0.0
++        self.master_velocity = 0.0
++        self.slave_velocity = 0.0
+ 
+ 
+     # 14. TODO: Implement callback functions
+@@ -92,7 +98,8 @@
+         :param msg: STMState message containing motor position data.
+         """
+         # TODO: Update master_position with value from msg
+-        self.master_position = ...
++        self.master_position = msg.motor_encoder
++        self.master_velocity = msg.motor_velocity
+ 
+     # 15. TODO: Implement callback functions
+     def slave_stm_state_callback(self, msg):
+@@ -103,7 +110,8 @@
+         :param msg: STMState message containing motor position data.
+         """
+         # TODO: Update master_position with value from msg
+-        self.slave_position = ...
++        self.slave_position = msg.motor_encoder
++        self.slave_velocity = msg.motor_velocity
+ 
+     # 16. TODO: Implement the service callback
+     def service_control_type_callback(self, request, response):
+@@ -124,18 +132,18 @@
+         # TODO: Update control kp gain based on the received requested message, 
+         # ensure the value is non-negative
+         if request.kp >= 0.0:
+-            self.kp = request...
++            self.kp = request.kp
+         else:
+             self.kp = 0.0
+             self.get_logger().warning(f"Invalid control gain: kp={request.kp}. Defaulting to kp={self.kp}")
+ 
+         # TODO: Update control kv gain based on the received requested message,
+         # ensure the value is non-negative
+-        if request.kv >= 0.0:
+-            self.kv = request...
++        if request.kd >= 0.0:
++            self.kv = request.kd
+         else:
+             self.kv = 0.0
+-            self.get_logger().warning(f"Invalid control gain: kv={request.kv}. Defaulting to kv={self.kv}")
++            self.get_logger().warning(f"Invalid control gain: kv={request.kd}. Defaulting to kv={self.kv}")
+             
+         # Log the updated control type
+         self.get_logger().info(f"Control type set to: {self.control_type}")
+@@ -157,24 +165,28 @@
+         for param in params:
+             if param.name == 'master_group_id':
+                 # TODO: Update master_group_id and master_state_topic
+-                self.master_group_id = self.get_parameter(...
+-                self.master_state_topic = f"/group_..."
++                self.master_group_id = param.value
++                self.master_state_topic = f"/group_{self.master_group_id}/stm_state"
+                 
+                 # TODO: If the subscriber already exists, destroy it and create a new one with the updated topic
+                 if hasattr(self, 'master_stm_state_subscriber'):
+                     self.destroy_subscription(self.master_stm_state_subscriber)
+-                    self.master_stm_state_subscriber = ...
++                    self.master_stm_state_subscriber = self.create_subscription(STMState, self.master_state_topic, self.master_stm_state_callback, 10)
+                     self.get_logger().info(f"Updated master subscriber to: {self.master_state_topic}")
+ 
+             elif param.name == 'slave_group_id':
+                 # TODO: Update slave_group_id and slave_control_topic
+-                self.slave_group_id = self.get_parameter(...
+-                self.slave_control_topic = f"/group_..."
++                self.slave_group_id = param.value
++                self.slave_state_topic = f"/group_{self.slave_group_id}/stm_state"
++                if hasattr(self, "slave_stm_state_subscriber"):
++                    self.destroy_subscription(self.slave_stm_state_subscriber)
++                    self.slave_stm_state_subscriber = self.create_subscription(STMState, self.slave_state_topic, self.slave_stm_state_callback, 10)
++                self.slave_control_topic = f"/group_{self.slave_group_id}/stm_control"
+                 
+                 # TODO: If the publisher already exists, destroy it and create a new one with the updated topic
+                 if hasattr(self, 'slave_stm_control_publisher'):
+                     self.destroy_publisher(self.slave_stm_control_publisher)
+-                    self.slave_stm_control_publisher = ...
++                    self.slave_stm_control_publisher = self.create_publisher(STMControl, self.slave_control_topic, 10)
+                     self.get_logger().info(f"Updated slave publisher to: {self.slave_control_topic}")
+ 
+         # Return SetParametersResult with successful=True
+@@ -192,17 +204,20 @@
+         if self.control_type >=0 and self.control_type <=2:
+             # TODO: Close loop for position control using PWM
+             # TODO: Calculate the position error between the master and slave encoder positions
+-            error_pos = ...
++            error_pos = self.master_position - self.slave_position
+             # TODO: Calculate the velocity error between the master and slave encoder velocities
+-            error_vel = ...
++            error_vel = self.master_velocity - self.slave_velocity
+             # TODO: Calculate the control command using the gain constants
+-            control_command = ...
++            control_command = self.kp * error_pos + self.kv * error_vel
+             # Saturate the control command to the valid range
+             pwm_limit = 250.0  # Maximum PWM value !!
+             control_command = max(-pwm_limit, min(pwm_limit, control_command))
+             
+             # TODO: Update the PWM control command in the STMControl message
+-            control_msg = ...
++            control_msg.control_type = self.control_type
++            control_msg.kp = self.kp
++            control_msg.setpoint = self.master_position
++            control_msg.pwm = control_command if self.control_type == 2 else 0.0
+ 
+         else:
+             # Handle unknown control types
+@@ -213,7 +228,7 @@
+             control_msg.setpoint = 0.0
+         
+         # TODO: Publish the constructed control command
+-        ...
++        self.slave_stm_control_publisher.publish(control_msg)
+ 
+         # Log the published command for debugging and monitoring
+         self.get_logger().info(f"Published control command: {control_msg}")
+--- templates/11_stm_visualization.py
++++ src/stm_station/stm_station/visualization_node.py
+@@ -1,3 +1,5 @@
++# Course template: templates/11_stm_visualization.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ 
+ # Objective:
+ # Create a ROS2 node that subscribes to `STMState` messages from an STM module, processes acceleration and encoder data from the motor and IMU 
+@@ -24,11 +26,11 @@
+         
+         # Step 2.1 TODO: Declare and retrieve parameters
+         # 'group_id': Unique identifier for the STM node (default: 1)
+-        self.declare_parameter( ...
+-        self.group_id = self.get_parameter( ...
++        self.declare_parameter('group_id', 7)
++        self.group_id = self.get_parameter('group_id').value
+ 
+         # Step 2.2 TODO: Define topic name based on group ID for subscribing to STM data
+-        input_topic = f'....'  # Input topic for STM data
++        input_topic = f'/group_{self.group_id}/stm_state'  # Input topic for STM data
+ 
+         # Step 2.3: Initialize state variables
+         self.position = [0.0, 0.0, 0.0]                         # x, y, z position
+@@ -39,7 +41,7 @@
+         self.last_time = self.get_clock().now()                 # Timestamp for integration
+ 
+         # Step 2.4 TODO: Create a subscriber for the STM data topic
+-        self.data_subscriber = ...  # Subscriber for STM data
++        self.data_subscriber = self.create_subscription(STMState, input_topic, self.stm_state_callback, 10)  # Subscriber for STM data
+ 
+         # Step 2.5: Initialize the TF broadcaster
+         self.tf_broadcaster = TransformBroadcaster(self)
+@@ -56,18 +58,18 @@
+         """
+ 
+         # Step 3.1: Read acceleration and encoder data from the STMState message
+-        linear_acceleration = np.array([...  # Acceleration data from the IMU
++        linear_acceleration = np.array([msg.accel_x, msg.accel_y, msg.accel_z])  # Acceleration data from the IMU
+ 
+         # Step 3.2 TODO: Update the rotation based on the received motors turns
+         # Change the units from encoder ticks to radians, remember that 1 revolution = 2*pi radians, 
+         # the reduction ratio is 1:9.7, and the encoder has 24 ticks per revolution
+-        self.rotation = 
++        self.rotation = msg.motor_encoder * 2 * math.pi / (24 * 9.7)
+ 
+ 
+         # Step 3.2 TODO: If it is the first reading, set the offset acceleration       
+         if self.first_reading == 1:                     # Check if it is the first reading
+             self.first_reading = 0                      # Set the first reading flag to False
+-            self.offset_acceleration = np.array([...    # Set the offset acceleration
++            self.offset_acceleration = linear_acceleration.copy()    # Set the offset acceleration
+ 
+         # Step 3.3 Integrate acceleration to get velocity and position
+         # Get the elapsed time since the last reading
+@@ -76,7 +78,7 @@
+         self.last_time = current_time                               # Update the last time  
+ 
+         # Step 3.4 TODO: Remove the offset acceleration from the received acceleration
+-        corrected_accel = ...  # Corrected acceleration
++        corrected_accel = linear_acceleration - self.offset_acceleration  # Corrected acceleration
+ 
+         # Step 3.5 Integrate the corrected acceleration to get velocity and position
+         # Avoid Drift: Integrate only when the acceleration is greater than a given threshold
+@@ -84,16 +86,16 @@
+         if np.linalg.norm(corrected_accel) > threshold:
+             # Integrate the acceleration to get the position
+             self.velocity[0] = self.velocity[0] + corrected_accel[0] * dt  # Update velocity in x direction
+-            self.velocity[1] = self.velocity[0] +  * dt  # Update velocity in y direction
+-            self.velocity[2] = self.velocity[0] +  * dt  # Update velocity in z direction
++            self.velocity[1] = self.velocity[1] + corrected_accel[1] * dt  # Update velocity in y direction
++            self.velocity[2] = self.velocity[2] + corrected_accel[2] * dt  # Update velocity in z direction
+             
+             # TODO: Integrate the velocity to get the position
+-            self.position[0] = ...
+-            self.position[1] = ...
+-            self.position[2] = ...
++            self.position[0] = self.position[0] + self.velocity[0] * dt
++            self.position[1] = self.position[1] + self.velocity[1] * dt
++            self.position[2] = self.position[2] + self.velocity[2] * dt
+ 
+         # Step 3.6 TODO: Broadcast the TF transform
+-        self....
++        self.broadcast_transform()
+ 
+     # Step 4: Define the function to broadcast TF transforms
+     def broadcast_transform(self):
+@@ -106,25 +108,25 @@
+         # Step 4.2 TODO: Set the frame details for the transform
+         transform.header.stamp = self.get_clock().now().to_msg()            # Set the same timestamp as the message received from the STM
+         transform.header.frame_id = 'world'                                 # Parent frame (fixed frame)
+-        transform.child_frame_id = f'/group_{self.group_id}/stm_station'    # Child frame for STM serial node
++        transform.child_frame_id = f'group_{self.group_id}/stm_station'    # Child frame for STM serial node
+ 
+         # Step 4.3 TODO: Set the translation (position) values
+-        transform.transform.translation.x = ...         # x position
+-        transform. ....                                 # y position
+-        transform. ....                                 # z position
++        transform.transform.translation.x = self.position[0]         # x position
++        transform.transform.translation.y = self.position[1]                                 # y position
++        transform.transform.translation.z = self.position[2]                                 # z position
+ 
+         # Step 4.4 Set the rotation (orientation) as a quaternion (z-axis rotation)
+         # Transform the rotation angle to a quaternion
+         quaternion = quaternion_from_euler(0.0, 0.0, self.rotation)
+ 
+         # Step 4.5 TODO: Set the rotation values in the transform
+-        transform.transform.rotation.x = ...        # x quaternion
+-        transform....                               # y quaternion
+-        transform....                               # z quaternion
+-        transform....                               # w quaternion
++        transform.transform.rotation.x = quaternion[0]        # x quaternion
++        transform.transform.rotation.y = quaternion[1]                               # y quaternion
++        transform.transform.rotation.z = quaternion[2]                               # z quaternion
++        transform.transform.rotation.w = quaternion[3]                               # w quaternion
+ 
+         # Publish the transform
+-        self.tf_broadcaster....                 # Broadcast the transform
++        self.tf_broadcaster.sendTransform(transform)                 # Broadcast the transform
+ 
+         self.get_logger().info(f"Broadcasted TF for position {self.position} and rotation {self.rotation} radians.")
+ 
+--- templates/12_stm_turtlebot_control.py
++++ src/stm_station/stm_station/turtlebot_control.py
+@@ -1,3 +1,5 @@
++# Course template: templates/12_stm_turtlebot_control.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ # Objective:
+ # Create a ROS2 node that subscribes to `STMState` messages from an STM module, processes motor velocity and gyro data, 
+ # and publishes `Twist` messages to control a simulated TurtleBot3 in Gazebo.
+@@ -6,6 +8,7 @@
+ import rclpy                                          # Main ROS 2 library for Python
+ from rclpy.node import Node                           # Node class to create ROS 2 nodes
+ from stm_interfaces.msg import STMState               # Custom message type for STM data
++from geometry_msgs.msg import Twist
+ # Import the ROS 2 message type for TurtleBot control commands (linear and angular speeds) /cmd_vel
+ 
+ # Step 2: Create the STMTurtleBotControlNode class
+@@ -22,16 +25,16 @@
+         self.group_id = self.get_parameter('group_id').get_parameter_value().integer_value  # Get group_id value
+ 
+         # Step 2.2 TODO: Define the topic name for subscribing to STMState messages
+-        stm_state_topic = f'group_{self.group_id}....
++        stm_state_topic = f'/group_{self.group_id}/stm_state'
+ 
+         # Step 2.3 TODO: Create a subscriber for the STMState topic
+         self.stm_state_subscriber = self.create_subscription(
+-            ....
++            STMState, stm_state_topic, self.stm_state_callback, 10
+         )
+ 
+         # Step 2.4: Create a publisher for controlling the TurtleBot3 in Gazebo /cmd_vel topic of type ...
+         self.twist_publisher = self.create_publisher(
+-            ...
++            Twist, '/cmd_vel', 10
+         )
+ 
+         # Step 2.5: Log setup details for confirmation
+@@ -48,19 +51,19 @@
+         # Transform the received rotational speed of the motors to linear speed in the x-axis 
+         # taking into account the number of ticks per revolution of the motor, the reduction ratio, 
+         # and the wheel radius.
+-        twist = ...
++        twist = Twist()
+ 
+         # Step 3.2 TODO: Extract and map motor_velocity to linear speed in the x-axis
+-        twist. ...
++        twist.linear.x = msg.motor_velocity * 2 * 3.141592653589793 * 0.033 / (24 * 9.7)
+ 
+         # Step 3.3 TODO: Extract and map gyro_z to angular speed
+-        twist. ...
++        twist.angular.z = msg.gyro_z
+ 
+         # Step 3.4: Publish the Twist message to control the TurtleBot3
+         self.twist_publisher.publish(twist)
+ 
+         # Step 3.5 TODO: Log the published speeds for debugging and monitoring
+-        self.get_logger().info(f"Published ...
++        self.get_logger().info(f"Published linear={twist.linear.x}, angular={twist.angular.z}")
+ 
+ # Step 4: Define the main function
+ def main(args=None):
+--- templates/13_bug0_lidar_stm.py
++++ src/stm_station/stm_station/bug0_node.py
+@@ -1,3 +1,5 @@
++# Course template: templates/13_bug0_lidar_stm.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ # Objective:
+ # Create a ROS 2 node that subscribes to the LiDAR `/scan` topic, splits the ranges vector
+ # into three regions (right, front, and left), stores the measured distances at the LiDAR
+@@ -29,14 +31,14 @@
+         self.turn_pwm = 70.0
+ 
+         # Step 2.2 TODO: Create a subscriber for the LiDAR topic `/scan`
+-        self.scan_subscriber = ...
++        self.scan_subscriber = self.create_subscription(LaserScan, '/scan', self.scan_callback, 10)
+ 
+         # Step 2.3 TODO: Create a publisher for the simulated robot velocity command
+         # In Jazzy, the diff drive controller expects TwistStamped on this topic.
+-        self.sim_velocity_publisher = ...
++        self.sim_velocity_publisher = self.create_publisher(TwistStamped, '/diff_drive_controller/cmd_vel', 10)
+ 
+         # Step 2.4 TODO: Create a publisher for the STM control topic `/stm_control`
+-        self.stm_control_publisher = ...
++        self.stm_control_publisher = self.create_publisher(STMControl, '/stm_control', 10)
+ 
+         # Step 2.5: Initialize the variables that store the latest minimum distance of each sector
+         self.right_distance = float('inf')
+@@ -46,7 +48,7 @@
+ 
+         # Step 2.6 TODO: Create a timer to publish the commands at 10 Hz
+         # Hint: 10 Hz means a period of 0.1 seconds
+-        self.control_timer = ...
++        self.control_timer = self.create_timer(0.1, self.control_timer_callback)
+ 
+         # Step 2.7: Log setup details
+         self.get_logger().info(
+@@ -79,19 +81,19 @@
+         #   - first third  -> right side
+         #   - middle third -> front
+         #   - last third   -> left side
+-        right_ranges = ...
+-        front_ranges = ...
+-        left_ranges = ...
++        right_ranges = msg.ranges[:section_size]
++        front_ranges = msg.ranges[section_size:2 * section_size]
++        left_ranges = msg.ranges[2 * section_size:]
+ 
+         # Step 4.3 TODO: Compute the minimum distance in each section
+-        right_distance = ...
+-        front_distance = ...
+-        left_distance = ...
++        right_distance = self.get_min_distance(right_ranges)
++        front_distance = self.get_min_distance(front_ranges)
++        left_distance = self.get_min_distance(left_ranges)
+ 
+         # Step 4.4 TODO: Store the minimum distances in the node variables
+-        self.right_distance = ...
+-        self.front_distance = ...
+-        self.left_distance = ...
++        self.right_distance = right_distance
++        self.front_distance = front_distance
++        self.left_distance = left_distance
+         self.scan_received = True
+ 
+     # Step 5: Define the timer callback that publishes the commands at 10 Hz
+@@ -123,24 +125,25 @@
+         # Otherwise, turn towards the side with more free space using the fixed angular
+         # speed and the turning PWM value.
+         if self.front_distance > self.obstacle_distance:
+-            sim_cmd.twist.linear.x = ...
+-            sim_cmd.twist.angular.z = ...
+-            stm_cmd.pwm = ...
++            sim_cmd.twist.linear.x = self.linear_speed
++            sim_cmd.twist.angular.z = 0.0
++            stm_cmd.pwm = self.forward_pwm
+         else:
+-            sim_cmd.twist.linear.x = ...
++            sim_cmd.twist.linear.x = 0.0
+ 
+             if self.left_distance >= self.right_distance:
+-                sim_cmd.twist.angular.z = ...
+-                stm_cmd.pwm = ...
++                sim_cmd.twist.angular.z = self.angular_speed
++                stm_cmd.pwm = self.turn_pwm
+             else:
+-                sim_cmd.twist.angular.z = ...
+-                stm_cmd.pwm = ...
++                sim_cmd.twist.angular.z = -self.angular_speed
++                stm_cmd.pwm = -self.turn_pwm
+ 
+         # Step 5.6 TODO: Publish both commands
+-        ...
++        self.sim_velocity_publisher.publish(sim_cmd)
++        self.stm_control_publisher.publish(stm_cmd)
+ 
+         # Step 5.7 TODO: Print the three minimum distances for debugging
+-        self.get_logger().info(...)
++        self.get_logger().info(f"Right: {self.right_distance}, front: {self.front_distance}, left: {self.left_distance}")
+ 
+ 
+ # Step 6: Define the main function
+--- templates/stm_station_launch.py
++++ src/stm_station/launch/stm_station_launch.py
+@@ -1,3 +1,5 @@
++# Course template: templates/stm_station_launch.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ from launch import LaunchDescription
+ from launch_ros.actions import Node
+ import os
+--- templates/stm_station_launch_all.py
++++ src/stm_station/launch/stm_station_launch_all.py
+@@ -1,3 +1,5 @@
++# Course template: templates/stm_station_launch_all.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ from launch import LaunchDescription
+ from launch_ros.actions import Node
+ import os
+--- templates/stm_station_launch.py
++++ src/stm_station/launch/stm_serial_control_launch.py
+@@ -1,3 +1,5 @@
++# Course template: templates/stm_station_launch.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ from launch import LaunchDescription
+ from launch_ros.actions import Node
+ import os
+--- templates/stm_station_launch_all.py
++++ src/stm_station/launch/stm_visualization_launch.py
+@@ -1,3 +1,5 @@
++# Course template: templates/stm_station_launch_all.py
++# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
+ from launch import LaunchDescription
+ from launch_ros.actions import Node
+ import os
+--- templates/serial_params.yaml
++++ src/stm_station/config/serial_params.yaml
+@@ -1,6 +1,6 @@
+ /**:
+   ros__parameters:
+-    group_id: 1          # <- the only line students change
++    group_id: 7          # <- the only line students change
+ 
+ /**/stm_serial_node:
+   ros__parameters:
+@@ -9,5 +9,5 @@
+ 
+ /**/stm_control_node_master_slave:
+   ros__parameters:
+-    master_group_id: 1
++    master_group_id: 7
+     slave_group_id: 2

@@ -1,0 +1,11 @@
+/**/bug0_lidar_stm_node:
+  ros__parameters:
+    obstacle_distance: 1.0
+    release_distance: 1.2
+    linear_speed: 0.3
+    angular_speed: 0.5
+    turn_clearance: 0.4
+    scan_timeout: 0.5
+    min_valid_fraction: 0.5
+    forward_pwm: 90.0
+    turn_pwm: 70.0

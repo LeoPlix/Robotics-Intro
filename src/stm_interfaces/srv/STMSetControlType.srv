@@ -1,0 +1,6 @@
+# 0 stop, 1 onboard position control, 2 host position/impedance PWM
+int32 control_type
+float64 kp
+float64 kd
+---
+bool success

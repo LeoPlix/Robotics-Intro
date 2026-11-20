@@ -1,0 +1,12 @@
+build/
+install/
+log/
+__pycache__/
+*.pyc
+*.db3
+*.mcap
+.planning/
+/src/simulation_ATHENS2026_st/
+.pytest_cache/
+.venv/
+local-pytest*.txt

@@ -1,0 +1,66 @@
+{
+  "10_stm_control_node_master_slave_impedance_control.py": {
+    "source_path": "Templates/10_stm_control_node_master_slave_impedance_control.py",
+    "sha256": "f395282b271ead760b7d93e14a528a887829b34542a624675985bbe91849bbe8"
+  },
+  "11_stm_visualization.py": {
+    "source_path": "Templates/11_stm_visualization.py",
+    "sha256": "c86b06a1082f7c616110121b8f12f897782962ef965c9049e34ddeedc4a583af"
+  },
+  "12_stm_turtlebot_control.py": {
+    "source_path": "Templates/12_stm_turtlebot_control.py",
+    "sha256": "01c22aca79305fc5c36a6911a1e60fefe275b88eed68745e1e2373c924d438b7"
+  },
+  "13_bug0_lidar_stm.py": {
+    "source_path": "Templates/13_bug0_lidar_stm.py",
+    "sha256": "bd75ee0bc599c759ab3dd4889dd9d716398c4bcf6f13b1665908b71193859fc8"
+  },
+  "1_simple_publisher.py": {
+    "source_path": "Templates/1_simple_publisher.py",
+    "sha256": "c11ab1197eafd880a2edac8e05d96bb0c429678b6acd3f3ceca1cd22e2f26dba"
+  },
+  "2_simple_subscriber.py": {
+    "source_path": "Templates/2_simple_subscriber.py",
+    "sha256": "cfb6fcb99c1faee543a054abd8d3aed63568b1cbe4478019ade1e18504060067"
+  },
+  "3_simple_service.py": {
+    "source_path": "Templates/3_simple_service.py",
+    "sha256": "2d6d7a50b8bfd4beef8916ed83d5008912cc94376fdc8ad3db0a090e5a43c5e4"
+  },
+  "4_simple_service_parameter.py": {
+    "source_path": "Templates/4_simple_service_parameter.py",
+    "sha256": "6d955a585db50048b29a7568c8fa219338a0a63a299a9939043035407345c390"
+  },
+  "5_stm_serial_communication_python.py": {
+    "source_path": "Templates/5_stm_serial_communication_python.py",
+    "sha256": "1ca464eede00d64eeff4f636903ace8d58bb42181227c19c5a50450f8dad2d0a"
+  },
+  "6_stm_serial_node_pub.py": {
+    "source_path": "Templates/6_stm_serial_node_pub.py",
+    "sha256": "4609c56b52ead8402e2f433c5eca5ea5cb5bb499ef04c765497c76803b3f1f99"
+  },
+  "7_stm_serial_node_pub_sub.py": {
+    "source_path": "Templates/7_stm_serial_node_pub_sub.py",
+    "sha256": "703dc3b4f2268beec900db5f20951bbfa79efa517b4c42caed8b3014154ea63d"
+  },
+  "8_stm_control_node_master_slave.py": {
+    "source_path": "Templates/8_stm_control_node_master_slave.py",
+    "sha256": "be8037b5bf24c55c0e2cda0c06c70dedf5add67bcca7cb5c4df3c65814722f9e"
+  },
+  "9_stm_control_node_master_slave_poscontrol.py": {
+    "source_path": "Templates/9_stm_control_node_master_slave_poscontrol.py",
+    "sha256": "7e95eead961d7dbbd17f7e1dad56f809bbe50e61be1bd4ae0ab7ddc7549114fb"
+  },
+  "serial_params.yaml": {
+    "source_path": "Templates/serial_params.yaml",
+    "sha256": "02bf863a2bed0ed35486665f9122e9091a0290f7d2d57b343510b9cc472e4fe1"
+  },
+  "stm_station_launch.py": {
+    "source_path": "Templates/stm_station_launch.py",
+    "sha256": "851193836e55c0ca0ca7335571b675252758de76c3bf7de40a8beb712b5279ba"
+  },
+  "stm_station_launch_all.py": {
+    "source_path": "Templates/stm_station_launch_all.py",
+    "sha256": "2bfd68676c3029b96d0dd603608a393d9f431b660d17fbd48dc08c6068aadb9c"
+  }
+}
