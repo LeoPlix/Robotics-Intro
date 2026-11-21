@@ -11,7 +11,7 @@ def test_invalid_standard_control(data):
         standard_control_values(data)
 
 
-def test_standard_control_preserves_course_array_order():
+def test_standard_control_preserves_array_order():
     assert standard_control_values([1.0, 12.0, 2.0, 0.0]) == (1, 12.0, 2.0, 0.0)
 
 

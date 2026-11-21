@@ -1,12 +1,8 @@
-# Course source: https://github.com/Robolabo/ROS_course
-# Upstream revision: cf9e122904ebcb55d336aa7e82d0760bc94cbb07
-# Template: Templates/stm_station_launch.py
-# Template: Templates/stm_station_launch_all.py
-# DONE marks code implementation, not a successful ROS/hardware test.
-# Team launch/helper code adapts the listed course pattern; no separate numbered scaffold exists.
-"""Validation shared by installed launch descriptions (no ROS imports)."""
+"""
+Validation and namespace helper functions for launch files.
+"""
 
-# Team helper for the namespace-building step in the course launch templates.
+
 def group_namespace(group_id):
     group_id = int(group_id)
     if group_id <= 0:

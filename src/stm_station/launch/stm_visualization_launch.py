@@ -1,19 +1,20 @@
-# Course template: templates/stm_station_launch_all.py
-# Changes: TODOs and necessary corrections; see docs/TEMPLATE_CHANGES.md.
-from launch import LaunchDescription
-from launch_ros.actions import Node
+"""
+Launch description for telemetry visualization:
+runs serial bridge, control node, RViz visualization node, and RViz2.
+"""
 import os
 import yaml
+from launch import LaunchDescription
+from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
- 
- 
+
+
 def generate_launch_description():
     share_dir = get_package_share_directory('stm_station')
- 
+
     serial_params = os.path.join(share_dir, 'config', 'serial_params.yaml')
     rviz_config = os.path.join(share_dir, 'rviz', 'stm_config.rviz')
 
-    # Read the group ID from the YAML file and build the namespace
     params = yaml.safe_load(open(serial_params))
     namespace = f"group_{params['/**']['ros__parameters']['group_id']}"
 
@@ -42,12 +43,11 @@ def generate_launch_description():
             parameters=[serial_params],
             output='screen',
         ),
-        # Add this block to launch RViz2:
         Node(
             package='rviz2',
             executable='rviz2',
             name='rviz2',
-            arguments=['-d', rviz_config],  # Remove this line if you don't have a saved .rviz file yet
+            arguments=['-d', rviz_config],
             output='screen',
         ),
     ])

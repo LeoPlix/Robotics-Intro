@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>stm_interfaces</name><version>0.1.0</version>
-  <description>STM station messages and control service.</description>
-  <maintainer email="athens@todo.todo">WinningLeos</maintainer>
-  <license>Proprietary</license>
+  <name>stm_interfaces</name>
+  <version>0.1.0</version>
+  <description>ROS 2 interface definitions for microcontroller state telemetry and motor control.</description>
+  <maintainer email="leonorecaguedes@gmail.com">Leonor Guedes</maintainer>
+  <license>MIT</license>
   <buildtool_depend>ament_cmake</buildtool_depend>
   <build_depend>rosidl_default_generators</build_depend>
   <depend>std_msgs</depend>

@@ -1,4 +1,4 @@
-"""Construct course launch actions without opening a serial port.
+"""Construct ROS launch actions without opening a serial port.
 
 Skipped without ROS; hardware operation is not tested here.
 """

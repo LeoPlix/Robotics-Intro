@@ -1,6 +1,9 @@
-# Course template: templates/11_stm_visualization.py
-# Alias for visualization_node to ensure compatibility with both naming conventions.
+"""
+Telemetry state estimation and RViz visualization node alias.
+"""
 from .visualization_node import STMVisualizationNode, main
+
+__all__ = ['STMVisualizationNode', 'main']
 
 if __name__ == '__main__':
     main()
